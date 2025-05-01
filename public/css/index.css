@@ -1,0 +1,594 @@
+/* index.css */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Roboto:wght@400;500&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  /* font-family: "Arial", sans-serif; */
+  font-family: "Roboto", sans-serif;
+  background-color: #00b894;
+  color: #333;
+}
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  padding: 0px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  z-index: 999;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Logo */
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: black;
+  text-decoration: none;
+}
+
+/* Search Bar */
+/* #category-filter {
+  flex: 1;
+  max-width: 400px;
+  padding: 8px 12px;
+  border: 1px solid black;
+  border-radius: 6px;
+  margin: 0 20px;
+  font-size: 1rem;
+} */
+
+.search-bar {
+  position: relative;
+  width: 40%;
+  margin: 1rem auto;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 0.5rem 1rem 0.5rem 2.5rem; /* space for the icon */
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.search-bar i {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: #888;
+  font-size: 1rem;
+}
+
+/* Nav Container */
+nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Dropdown Container */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Button */
+.dropbtn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  transition: color 0.3s ease;
+}
+
+/* Dropdown Button Hover */
+.dropbtn:hover {
+  color: #00b894; /* Change color on hover */
+}
+
+/* Dropdown Arrow */
+.dropbtn i {
+  transition: transform 0.3s ease;
+}
+
+/* Arrow Rotation on Hover */
+.dropdown:hover .dropbtn i {
+  transform: rotate(180deg);
+}
+
+/* Dropdown Menu */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  min-width: 160px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  z-index: 10;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+}
+
+/* Show Dropdown on Hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: 100px;
+}
+
+/* Dropdown Links */
+.dropdown-content a {
+  padding: 12px 10px;
+  text-decoration: none;
+  color: #333;
+  display: block;
+  font-size: 1rem;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dropdown Link Hover */
+.dropdown-content a:hover {
+  background-color: #00b894;
+  color: #fff;
+}
+
+/* Remove last border for better spacing */
+.dropdown-content a:last-child {
+  border-bottom: none;
+}
+
+/* Make sure dropdown is centered */
+.dropdown-content a i {
+  margin-right: 8px;
+}
+
+/* Cart link */
+nav a {
+  text-decoration: none;
+  color: #333;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Responsive adjustments
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+  }
+
+  nav {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+
+  #category-filter {
+    width: 100%;
+    max-width: 100%;
+    margin: 10px 0;
+  }
+} */
+
+main {
+  margin-top: 110px;
+}
+.carousel {
+  position: relative;
+  /* width: 100%;
+  max-width: 1200px; */
+  width: 90%;
+  margin: auto;
+  overflow: hidden;
+  border-radius: 12px;
+  /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.9);
+  height: 70vh;
+}
+
+.slides {
+  display: flex;
+  transition: transform 0.6s ease-in-out;
+  width: 100%; /* 3 slides */
+}
+
+.slide {
+  position: relative;
+  min-width: 100%;
+  height: 70vh;
+  /* height: 100%; */
+}
+
+.slide img {
+  width: 100%;
+  height: 80vh;
+  /* object-fit: cover; */
+  background-position: center;
+  display: none;
+}
+
+.slide-text {
+  position: absolute;
+  bottom: 40px;
+  left: 50px;
+  /* background: rgba(0, 0, 0, 0.5); */
+  color: dark;
+  padding: 20px 30px;
+  border-radius: 8px;
+  max-width: 500px;
+}
+
+.slide-text h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.slide-text p {
+  font-size: 16px;
+}
+
+.dots {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  text-align: center;
+}
+
+.dot {
+  height: 12px;
+  width: 12px;
+  margin: 0 6px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.dot.active {
+  background-color: #00b894;
+}
+
+#product-list {
+  display: grid;
+  /* grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); */
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 20px;
+  margin: 0px 40px;
+  /* border: 1px solid; */
+}
+
+h1 {
+  text-align: center;
+  margin: 25px 0 20px 0;
+  color: rgb(27, 26, 26);
+  padding: 0 10px;
+}
+
+.product-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  padding: 0.6rem;
+  /* text-align: center; */
+  transition: 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  font-family: "Roboto", sans-serif;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.product-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.product-category {
+  color: #00b894;
+  font-weight: 600;
+  font-size: 0.9rem;
+  /* margin-bottom: 0.1rem; */
+}
+
+.product-title {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  font-family: "Poppins", sans-serif;
+  margin: -10px 0px;
+}
+
+.product-description {
+  font-size: 0.85rem;
+  color: #666;
+  /* min-height: 60px; */
+}
+
+.product-price {
+  font-size: 1.1rem;
+  color: #00b894;
+  font-weight: bold;
+  margin: -4px 0;
+}
+
+.add-to-cart {
+  background-color: #00b894;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-to-cart:hover {
+  background-color: #009874;
+}
+
+footer {
+  text-align: center;
+  padding: 0.8rem;
+  background-color: #333;
+  color: white;
+  font-family: "Roboto", sans-serif;
+}
+
+footer p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* Responsive Header */
+@media screen and (max-width: 992px) {
+  header {
+    padding: 0px 15px;
+  }
+  .logo {
+    font-size: 1.3rem;
+  }
+  .search-bar {
+    position: relative;
+    width: 30%;
+    margin: 1rem auto;
+  }
+  .showText {
+    font-size: 27px;
+  }
+  #product-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+    margin: 0px 20px;
+  }
+  .product-description {
+    font-size: 13px;
+  }
+  main {
+    margin-top: 100px;
+  }
+  .slide img {
+    width: 100%;
+    height: 70vh;
+    /* object-fit: cover; */
+    background-position: center;
+    display: block;
+  }
+  .slide-text {
+    position: absolute;
+    bottom: 80px;
+    left: 50px;
+    /* background: rgba(0, 0, 0, 0.5); */
+    color: dark;
+    padding: 20px 30px;
+    border-radius: 8px;
+    max-width: 500px;
+    display: none;
+  }
+  .add-to-cart{
+    padding: 8px;
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  header {
+    padding: 0px 10px;
+  }
+  .logo {
+    font-size: 1rem;
+  }
+  .slide-text {
+    position: absolute;
+    bottom: 200px;
+    /* left: 20px; */
+    /* background: rgba(0, 0, 0, 0.5); */
+    color: dark;
+    /* padding: 20px 30px; */
+    border-radius: 8px;
+    /* max-width: 500px; */
+  }
+  .showText {
+    font-size: 27px;
+  }
+  .slide img {
+    width: 100%;
+    height: 40vh;
+    /* object-fit: cover; */
+    background-position: center;
+    display: none;
+  }
+  .account,
+  .cart {
+    display: none;
+  }
+  /* #product-list {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 20px;
+    padding: 20px;
+    margin: 0px 40px;
+  } */
+  #product-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 7px;
+    padding: 5px;
+    margin: 0px 10px;
+    /* border: 1px solid; */
+  }
+  .product-card img {
+    height: 160px;
+  }
+  .product-title {
+    font-size: 13px;
+  }
+  .product-description {
+    font-size: 10px;
+  }
+  .product-price {
+    font-size: 13px;
+  }
+  .add-to-cart {
+    padding: 6px;
+    font-size: 13px;
+  }
+  .search-bar {
+    width: 35%;
+    margin: 0.5rem auto;
+  }
+  .search-bar input {
+    padding: 0.3rem 2rem;
+  }
+  .search-bar i {
+    font-size: 0.8rem;
+  }
+  .carousel {
+    height: 40vh;
+  }
+  main {
+    margin-top: 60px;
+  }
+  .slide-text {
+    display: none;
+  }
+  .slide img {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  header {
+    padding: 0px 10px;
+  }
+  .logo {
+    font-size: 0.9rem;
+  }
+  .fa-solid {
+    transition: transform 0.3s ease;
+    font-size: 12px;
+  }
+  .showText {
+    font-size: 20px;
+  }
+  .account,
+  .cart {
+    display: none;
+  }
+
+  .search-bar {
+    width: 35%;
+    margin: 0.5rem auto;
+  }
+  .search-bar input {
+    padding: 0.3rem 2rem;
+    font-size: 12px;
+  }
+  .search-bar i {
+    font-size: 11px;
+  }
+  .carousel {
+    height: 40vh;
+  }
+  .product-card {
+    width: 100%;
+  }
+  .product-category {
+    font-size: 11px;
+    /* border: 1px solid; */
+    margin: -5px;
+  }
+  .product-card img {
+    height: 130px;
+  }
+  .product-title {
+    font-size: 13px;
+  }
+  .product-description {
+    font-size: 9px;
+  }
+  .product-price {
+    font-size: 12px;
+  }
+  .add-to-cart {
+    padding: 6px;
+    font-size: 12px;
+  }
+}
+@media screen and (max-width: 320px) {
+  .logo {
+    font-size: 11px;
+  }
+  .search-bar input {
+    padding: 0.3rem 2rem;
+    font-size: 9px;
+  }
+  .search-bar i {
+    font-size: 9px;
+  }
+  .fa-solid {
+    transition: transform 0.3s ease;
+    font-size: 11px;
+  }
+}

@@ -1,0 +1,113 @@
+<!-- frontend/register.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Register</title>
+    <link rel="stylesheet" href="./public/css/register.css">
+    <link rel="stylesheet" href="./public/css/modal.css"> <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header>
+      <h1>Register</h1>
+      <nav>
+        <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="login.html"><i class="fa-solid fa-sign-in-alt"></i> Login</a>
+      </nav>
+    </header>
+
+    <main>
+      <form id="register-form">
+        <input type="text" id="name" placeholder="Your Name" required /><br />
+        <input type="email" id="email" placeholder="Email" required /><br />
+        <input
+          type="password"
+          id="password"
+          placeholder="Password"
+          required
+        /><br />
+        <button type="submit">Register</button>
+      </form>
+      <!-- Loading Modal -->
+      <div id="loading-modal" class="modal">
+        <div class="modal-content">
+          <div id="loading-spinner" class="spinner"></div>
+          <p id="modal-message">Processing...</p>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 My E-Commerce</p>
+    </footer>
+
+    <script>
+  // Function to show the loading modal
+  function showLoadingModal(message = "Processing...") {
+    const modal = document.getElementById("loading-modal");
+    const modalMessage = document.getElementById("modal-message");
+
+    modalMessage.textContent = message;
+    modal.style.display = "flex"; // Show the modal
+  }
+
+  // Function to hide the loading modal
+  function hideLoadingModal() {
+    const modal = document.getElementById("loading-modal");
+    modal.style.display = "none"; // Hide the modal
+  }
+
+  // Function to show a success message in the modal
+  function showSuccessModal(message = "Operation Successful!") {
+    showLoadingModal(message);
+    setTimeout(() => hideLoadingModal(), 2000); // Hide after 2 seconds
+  }
+
+  // Function to show an error message in the modal
+  function showErrorModal(message = "Something went wrong!") {
+    showLoadingModal(message);
+    setTimeout(() => hideLoadingModal(), 2000); // Hide after 2 seconds
+  }
+
+  const registerForm = document.getElementById("register-form");
+
+  registerForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    showLoadingModal("Registering..."); // Show loading modal while processing
+
+    try {
+      const res = await fetch("http://localhost:8000/api/users/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      hideLoadingModal(); // Hide the loading modal when the request is done
+
+      const data = await res.json();
+
+      if (res.ok) {
+        showSuccessModal("✅ Registered successfully! Please log in.");
+        setTimeout(() => {
+          window.location.href = "login.html";
+        }, 2000); // Redirect to login page after success
+      } else {
+        showErrorModal("❌ Error: " + data.error); // Show error message in modal
+      }
+    } catch (error) {
+      hideLoadingModal(); // Hide the loading modal on error
+      showErrorModal("❌ Something went wrong. Please try again.");
+    }
+  });
+</script>
+
+  </body>
+</html>

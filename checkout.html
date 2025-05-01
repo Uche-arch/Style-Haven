@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./public/css/checkout.css" />
+    <link rel="stylesheet" href="./public/css/modal.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+    <title>Checkout</title>
+  </head>
+  <body>
+    <header>
+      <h1>Checkout</h1>
+      <nav>
+        <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="cart.html"><i class="fa-solid fa-cart-shopping"></i> Cart</a>
+      </nav>
+    </header>
+
+    <main>
+      <form id="checkout-form" enctype="multipart/form-data">
+        <input type="text" id="name" placeholder="Your Name" required /><br />
+        <input
+          type="email"
+          id="email"
+          placeholder="Your Email"
+          required
+        /><br />
+        <p id="total-price"></p>
+        <p id="color"></p>
+        <p id="size"></p>
+        <input type="" placeholder="Phone number" id="phone-number" />
+        <textarea
+          id="address"
+          placeholder="Delivery Address"
+          required
+        ></textarea
+        ><br />
+        <label for="product-image" class="upload-btn"
+          >📤 Upload Payment Receipt</label
+        >
+        <input
+          type="file"
+          id="product-image"
+          name="receipt"
+          style="display: none"
+          required
+        /><br /><img
+          id="image-preview"
+          style="max-width: 150px; margin-top: 10px; display: none"
+        />
+
+        <button type="submit">Place Order</button>
+      </form>
+      <!-- Loading Modal -->
+      <div id="loading-modal" class="modal">
+        <div class="modal-content">
+          <div id="loading-spinner" class="spinner"></div>
+          <p id="modal-message">Processing...</p>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Style Haven Store. All rights reserved.</p>
+    </footer>
+
+    <!-- <script>
+      // Function to show the loading modal
+      function showLoadingModal(message = "Processing...") {
+        const modal = document.getElementById("loading-modal");
+        const modalMessage = document.getElementById("modal-message");
+
+        modalMessage.textContent = message;
+        modal.style.display = "flex"; // Show the modal
+      }
+
+      // Function to hide the loading modal
+      function hideLoadingModal() {
+        const modal = document.getElementById("loading-modal");
+        modal.style.display = "none"; // Hide the modal
+      }
+
+      // Function to show a success message in the modal
+      function showSuccessModal(message = "Operation Successful!") {
+        showLoadingModal(message);
+        setTimeout(() => hideLoadingModal(), 2000); // Hide after 2 seconds
+      }
+
+      // Function to show an error message in the modal
+      function showErrorModal(message = "Something went wrong!") {
+        showLoadingModal(message);
+        setTimeout(() => hideLoadingModal(), 2000); // Hide after 2 seconds
+      }
+
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        alert("⚠️ Please log in to access checkout.");
+        window.location.href = "login.html";
+      }
+
+      const form = document.getElementById("checkout-form");
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const totalPrice = localStorage.getItem("totalPrice") || 0; // Retrieve the totalPrice from localStorage
+      const totalPriceDisplay = document.getElementById("total-price"); // Display the total on checkout page
+      totalPriceDisplay.innerText = `₦${totalPrice}`; // Display total price
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const address = document.getElementById("address").value;
+        const color = document.getElementById("color").value;
+        const size = document.getElementById("size").value;
+        const receipt = document.getElementById("receipt").files[0];
+        const phoneNumber = document.getElementById("phone-number").value;
+
+        if (!cart.length) {
+          alert("Your cart is empty!");
+          return;
+        }
+
+        // Show loading modal before uploading receipt
+        showLoadingModal("Uploading receipt...");
+
+        // 1️⃣ Upload image to Cloudinary
+        const receiptData = new FormData();
+        receiptData.append("file", receipt);
+        receiptData.append("upload_preset", "e-commerce-checkout");
+
+        let receiptUrl;
+        try {
+          const uploadRes = await fetch(
+            "https://api.cloudinary.com/v1_1/dylaf7wrn/image/upload",
+            {
+              method: "POST",
+              body: receiptData,
+            }
+          );
+
+          const uploadResult = await uploadRes.json();
+          receiptUrl = uploadResult.secure_url;
+
+          // Hide the loading modal after upload completes
+          hideLoadingModal();
+        } catch (err) {
+          console.error("Failed to upload receipt:", err);
+          hideLoadingModal();
+          alert("❌ Failed to upload receipt.");
+          return;
+        }
+
+        // 2️⃣ Prepare order with the totalPrice
+        const order = {
+          name,
+          email,
+          phoneNumber,
+          address,
+          products: cart.map((product) => ({
+            ...product,
+            color: product.color, // Pass color
+            size: product.size, // Pass size
+          })),
+          total: totalPrice, // Send the total price with the order
+          receipt: receiptUrl,
+        };
+
+        // Show loading modal before placing the order
+        showLoadingModal("Placing your order...");
+
+        try {
+          const res = await fetch("http://localhost:8000/api/orders", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(order),
+          });
+
+          const data = await res.json();
+
+          // Hide the loading modal after order is placed
+          hideLoadingModal();
+
+          if (res.ok) {
+            alert("🎉 Order placed successfully!");
+            localStorage.removeItem("cart");
+            localStorage.removeItem("totalPrice"); // Clear the total price after order
+            window.location.href = "index.html";
+          } else {
+            alert("⚠️ Failed to place order: " + data.error);
+          }
+        } catch (err) {
+          console.error("Error placing order:", err);
+          hideLoadingModal();
+          alert("⚠️ Something went wrong while placing the order.");
+        }
+      });
+    </script> -->
+
+    <script>
+        
+      // Function to show the loading modal
+      function showLoadingModal(message = "Processing...") {
+        const modal = document.getElementById("loading-modal");
+        const modalMessage = document.getElementById("modal-message");
+
+        modalMessage.textContent = message;
+        modal.style.display = "flex";
+      }
+
+      function hideLoadingModal() {
+        document.getElementById("loading-modal").style.display = "none";
+      }
+
+      function showSuccessModal(message = "Operation Successful!") {
+        showLoadingModal(message);
+        setTimeout(() => hideLoadingModal(), 3000);
+      }
+
+      function showErrorModal(message = "Something went wrong!") {
+        showLoadingModal(message);
+        setTimeout(() => hideLoadingModal(), 2000);
+      }
+
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        alert("⚠️ Please log in to access checkout.");
+        window.location.href = "login.html";
+      }
+
+      const form = document.getElementById("checkout-form");
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const totalPrice = localStorage.getItem("totalPrice") || 0;
+
+      document.getElementById("total-price").innerText = `₦${totalPrice}`;
+
+      // 📸 Handle receipt preview and file name display
+      const fileInput = document.getElementById("product-image");
+      const previewImg = document.getElementById("image-preview");
+
+      fileInput.addEventListener("change", function () {
+        const file = fileInput.files[0];
+
+        if (file) {
+          if (file.type.startsWith("image/")) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              previewImg.src = e.target.result;
+              previewImg.style.display = "block";
+            };
+            reader.readAsDataURL(file);
+          } else {
+            previewImg.style.display = "none";
+          }
+        } else {
+          previewImg.style.display = "none";
+        }
+      });
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const address = document.getElementById("address").value;
+        const color = document.getElementById("color").value;
+        const size = document.getElementById("size").value;
+        const receipt = document.getElementById("product-image").files[0];
+        const phoneNumber = document.getElementById("phone-number").value;
+
+        if (!cart.length) {
+          alert("Your cart is empty!");
+          return;
+        }
+
+        showLoadingModal("Uploading receipt...");
+
+        const receiptData = new FormData();
+        receiptData.append("file", receipt);
+        receiptData.append("upload_preset", "e-commerce-checkout");
+
+        let receiptUrl;
+        try {
+          const uploadRes = await fetch(
+            "https://api.cloudinary.com/v1_1/dylaf7wrn/image/upload",
+            {
+              method: "POST",
+              body: receiptData,
+            }
+          );
+
+          const uploadResult = await uploadRes.json();
+          receiptUrl = uploadResult.secure_url;
+
+          hideLoadingModal();
+        } catch (err) {
+          console.error("Failed to upload receipt:", err);
+          hideLoadingModal();
+          alert("❌ Failed to upload receipt.");
+          return;
+        }
+
+        const order = {
+          name,
+          email,
+          phoneNumber,
+          address,
+          products: cart.map((product) => ({
+            ...product,
+            color: product.color,
+            size: product.size,
+          })),
+          //   total: totalPrice,
+          total: Number(totalPrice.toString().replace(/,/g, "")), // Remove commas and convert to number
+
+          receipt: receiptUrl,
+        };
+
+        showLoadingModal("Placing your order...");
+
+        try {
+          const res = await fetch("http://localhost:8000/api/orders", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(order),
+          });
+
+          const data = await res.json();
+          hideLoadingModal();
+
+          if (res.ok) {
+            showSuccessModal("🎉 Order placed! You will receive an order confirmation email soon😊");
+
+            localStorage.removeItem("cart");
+            localStorage.removeItem("totalPrice");
+
+            // Redirect after 3 seconds (same as modal delay)
+            setTimeout(() => {
+              window.location.href = "index.html";
+            }, 3000);
+          } else {
+            alert("⚠️ Failed to place order: " + data.error);
+          }
+        } catch (err) {
+          console.error("Error placing order:", err);
+          hideLoadingModal();
+          alert("⚠️ Something went wrong while placing the order.");
+        }
+      });
+    </script>
+  </body>
+</html>

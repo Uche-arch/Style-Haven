@@ -1,0 +1,141 @@
+/* admin.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Roboto:wght@400;500&display=swap');
+
+/* General reset for margin and padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body styling */
+body {
+  /* font-family: "Arial", sans-serif; */
+   font-family: 'Roboto', sans-serif;
+  background-color: #00B894;
+  color: #333;
+  padding: 2px;
+}
+
+/* Header styling */
+header {
+  background-color: #fff;
+  color: black;
+  padding: 7px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+header nav {
+  margin-top: 10px;
+}
+
+header nav a {
+  color: black;
+  margin: 0 15px;
+  padding: 5px 0 0 5px;
+  text-decoration: none;
+  font-size: 16px;
+  transition: color 0.3s;
+}
+
+header nav a:hover {
+  color: blue;
+  text-decoration: none;
+}
+
+header h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+/* Main section styling */
+main {
+  padding: 20px;
+}
+
+h2,
+h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+/* Product form styling */
+#add-product-form {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+#add-product-form input,
+#add-product-form textarea,
+#add-product-form button {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+#add-product-form button {
+  background-color: #333;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#add-product-form button:hover {
+  background-color: #555;
+}
+
+/* Product list styling */
+#product-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+}
+#product-list .product {
+  background-color: white;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+#product-list img {
+  width: 100px;
+  height: auto;
+  /* margin-right: 15px; */
+}
+
+#product-list button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#product-list button:hover {
+  background-color: darkred;
+}
+
+/* Footer styling */
+footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  /* margin-top: 30px; */
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}

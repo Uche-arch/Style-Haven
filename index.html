@@ -1,0 +1,426 @@
+<!-- frontend/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./public/css/index.css" />
+    <link rel="stylesheet" href="./public/css/modal.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/css/lightbox.min.css"
+      rel="stylesheet"
+    />
+    <title>My E-Commerce</title>
+  </head>
+  <body>
+    <header>
+      <a href="index.html" class="logo"
+        ><i class="fa-solid fa-bag-shopping"></i> Style Haven</a
+      >
+      <!-- <input
+        list="category-list"
+        id="category-filter"
+        placeholder="Select a category..."
+        style="margin: 1rem auto; display: block; padding: 0.5rem; width: 40%"
+      /> -->
+
+      <div class="search-bar">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input
+          list="category-list"
+          id="category-filter"
+          placeholder="Select a category..."
+        />
+      </div>
+
+      <datalist id="category-list">
+        <!-- Categories will be added via JS -->
+      </datalist>
+      <nav>
+        <div class="dropdown">
+          <button class="dropbtn">
+            <span class="fa-solid fa-user"></span> <span class="account">Account</span> 
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a href="secondadmin.html" id="admin-link" style="display: none">
+              <i class="fa-solid fa-user-tie"></i> Admin
+            </a>
+            <a href="login.html" id="login-link"
+              ><i class="fa-solid fa-right-to-bracket"></i> Login</a
+            >
+            <a href="#" id="logout-link" style="display: none"
+              ><i class="fa-solid fa-right-from-bracket"></i> Logout</a
+            >
+          </div>
+        </div>
+        <a href="cart.html"> <i class="fa-solid fa-cart-shopping"></i> <span class="cart">Cart</span></a>
+      </nav>
+    </header>
+
+    <main>
+      <div class="carousel">
+        <div class="slides">
+          <div class="slide active" style="background-color: #e0f7f5">
+            <img src="./public/img/ehen.gif" alt="Slide 1" />
+            <div class="slide-text">
+              <h2>Welcome to Style Haven</h2>
+              <p>
+                Discover amazing products, local deals, and everything in
+                between.
+              </p>
+            </div>
+          </div>
+          <div class="slide" style="background-color: #e0f7f5">
+            <img src="./public/img/second-img.avif" alt="Slide 2" />
+            <div class="slide-text">
+              <h2>Fresh Finds Just For You</h2>
+              <p>Explore the latest additions in fashion, gadgets, and more.</p>
+            </div>
+          </div>
+          <div class="slide" style="background-color: #e0f7f5">
+            <img src="./public/img/tele-prop1.jpg" alt="Slide 3" />
+            <div class="slide-text">
+              <h2>Quality Meets Affordability</h2>
+              <p>Get premium products without breaking the bank.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="dots">
+          <span class="dot active" onclick="showSlide(0)"></span>
+          <span class="dot" onclick="showSlide(1)"></span>
+          <span class="dot" onclick="showSlide(2)"></span>
+        </div>
+      </div>
+      <h1 class="showText">Find What You Love, Buy What You Need</h1>
+
+      <section class="products" id="product-list">
+        <div class="product-card">
+          <p class="product-category">Accessories</p>
+          <!-- <a href="${product.image}" data-lightbox="post-gallery"> -->
+          <img src="./public/img/tele-prop1.jpg" alt="${product.name}" />
+          <!-- </a> -->
+          <h3 class="product-title">1980 Telephone</h3>
+          <p class="product-description">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi,
+            aliquam?
+          </p>
+          <p class="product-price">₦12000</p>
+          <button class="add-to-cart">Add to cart</button>
+        </div>
+        <div class="product-card">
+          <p class="product-category">Accessories</p>
+          <!-- <a href="${product.image}" data-lightbox="post-gallery"> -->
+          <img src="./public/img/tele-prop1.jpg" alt="${product.name}" />
+          <!-- </a> -->
+          <h3 class="product-title">1980 Telephone</h3>
+          <p class="product-description">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi,
+            aliquam?
+          </p>
+          <p class="product-price">₦12000</p>
+          <button class="add-to-cart">Add to cart</button>
+        </div>
+        <div class="product-card">
+          <p class="product-category">Accessories</p>
+          <!-- <a href="${product.image}" data-lightbox="post-gallery"> -->
+          <img src="./public/img/tele-prop1.jpg" alt="${product.name}" />
+          <!-- </a> -->
+          <h3 class="product-title">1980 Telephone</h3>
+          <p class="product-description">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi,
+            aliquam?
+          </p>
+          <p class="product-price">₦12000</p>
+          <button class="add-to-cart">Add to cart</button>
+        </div>
+        <div class="product-card">
+          <p class="product-category">Accessories</p>
+          <!-- <a href="${product.image}" data-lightbox="post-gallery"> -->
+          <img src="./public/img/tele-prop1.jpg" alt="${product.name}" />
+          <!-- </a> -->
+          <h3 class="product-title">1980 Telephone</h3>
+          <p class="product-description">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi,
+            aliquam?
+          </p>
+          <p class="product-price">₦12000</p>
+          <button class="add-to-cart">Add to cart</button>
+        </div>
+        <div class="product-card">
+          <p class="product-category">Accessories</p>
+          <!-- <a href="${product.image}" data-lightbox="post-gallery"> -->
+          <img src="./public/img/tele-prop1.jpg" alt="${product.name}" />
+          <!-- </a> -->
+          <h3 class="product-title">1980 Telephone</h3>
+          <p class="product-description">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi,
+            aliquam?
+          </p>
+          <p class="product-price">₦12000</p>
+          <button class="add-to-cart">Add to cart</button>
+        </div>
+        <div class="product-card">
+          <p class="product-category">Accessories</p>
+          <!-- <a href="${product.image}" data-lightbox="post-gallery"> -->
+          <img src="./public/img/tele-prop1.jpg" alt="${product.name}" />
+          <!-- </a> -->
+          <h3 class="product-title">1980 Telephone</h3>
+          <p class="product-description">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi,
+            aliquam?
+          </p>
+          <p class="product-price">₦12000</p>
+          <button class="add-to-cart">Add to cart</button>
+        </div>
+        <div class="product-card">
+          <p class="product-category">Accessories</p>
+          <!-- <a href="${product.image}" data-lightbox="post-gallery"> -->
+          <img src="./public/img/tele-prop1.jpg" alt="${product.name}" />
+          <!-- </a> -->
+          <h3 class="product-title">1980 Telephone</h3>
+          <p class="product-description">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi,
+            aliquam?
+          </p>
+          <p class="product-price">₦12000</p>
+          <button class="add-to-cart">Add to cart</button>
+        </div>
+        <div class="product-card">
+          <p class="product-category">Accessories</p>
+          <!-- <a href="${product.image}" data-lightbox="post-gallery"> -->
+          <img src="./public/img/tele-prop1.jpg" alt="${product.name}" />
+          <!-- </a> -->
+          <h3 class="product-title">1980 Telephone</h3>
+          <p class="product-description">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi,
+            aliquam?
+          </p>
+          <p class="product-price">₦12000</p>
+          <button class="add-to-cart">Add to cart</button>
+        </div>
+        <div class="product-card">
+          <p class="product-category">Accessories</p>
+          <!-- <a href="${product.image}" data-lightbox="post-gallery"> -->
+          <img src="./public/img/tele-prop1.jpg" alt="${product.name}" />
+          <!-- </a> -->
+          <h3 class="product-title">1980 Telephone</h3>
+          <p class="product-description">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi,
+            aliquam?
+          </p>
+          <p class="product-price">₦12000</p>
+          <button class="add-to-cart">Add to cart</button>
+        </div>
+        <div class="product-card">
+          <p class="product-category">Accessories</p>
+          <!-- <a href="${product.image}" data-lightbox="post-gallery"> -->
+          <img src="./public/img/tele-prop1.jpg" alt="${product.name}" />
+          <!-- </a> -->
+          <h3 class="product-title">1980 Telephone</h3>
+          <p class="product-description">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi,
+            aliquam?
+          </p>
+          <p class="product-price">₦12000</p>
+          <button class="add-to-cart">Add to cart</button>
+        </div>
+        <div class="product-card">
+          <p class="product-category">Accessories</p>
+          <!-- <a href="${product.image}" data-lightbox="post-gallery"> -->
+          <img src="./public/img/tele-prop1.jpg" alt="${product.name}" />
+          <!-- </a> -->
+          <h3 class="product-title">1980 Telephone</h3>
+          <p class="product-description">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi,
+            aliquam?
+          </p>
+          <p class="product-price">₦12000</p>
+          <button class="add-to-cart">Add to cart</button>
+        </div>
+        <div class="product-card">
+          <p class="product-category">Accessories</p>
+          <!-- <a href="${product.image}" data-lightbox="post-gallery"> -->
+          <img src="./public/img/tele-prop1.jpg" alt="${product.name}" />
+          <!-- </a> -->
+          <h3 class="product-title">1980 Telephone</h3>
+          <p class="product-description">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi,
+            aliquam?
+          </p>
+          <p class="product-price">₦12000</p>
+          <button class="add-to-cart">Add to cart</button>
+        </div>
+        <div class="product-card">
+          <p class="product-category">Accessories</p>
+          <!-- <a href="${product.image}" data-lightbox="post-gallery"> -->
+          <img src="./public/img/tele-prop1.jpg" alt="${product.name}" />
+          <!-- </a> -->
+          <h3 class="product-title">1980 Telephone</h3>
+          <p class="product-description">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi,
+            aliquam?
+          </p>
+          <p class="product-price">₦12000</p>
+          <button class="add-to-cart">Add to cart</button>
+        </div>
+        <div class="product-card">
+          <p class="product-category">Accessories</p>
+          <!-- <a href="${product.image}" data-lightbox="post-gallery"> -->
+          <img src="./public/img/tele-prop1.jpg" alt="${product.name}" />
+          <!-- </a> -->
+          <h3 class="product-title">1980 Telephone</h3>
+          <p class="product-description">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi,
+            aliquam?
+          </p>
+          <p class="product-price">₦12000</p>
+          <button class="add-to-cart">Add to cart</button>
+        </div>
+        <div class="product-card">
+          <p class="product-category">Accessories</p>
+          <!-- <a href="${product.image}" data-lightbox="post-gallery"> -->
+          <img src="./public/img/tele-prop1.jpg" alt="${product.name}" />
+          <!-- </a> -->
+          <h3 class="product-title">1980 Telephone</h3>
+          <p class="product-description">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi,
+            aliquam?
+          </p>
+          <p class="product-price">₦12000</p>
+          <button class="add-to-cart">Add to cart</button>
+        </div>
+        <div class="product-card">
+          <p class="product-category">Accessories</p>
+          <!-- <a href="${product.image}" data-lightbox="post-gallery"> -->
+          <img src="./public/img/tele-prop1.jpg" alt="${product.name}" />
+          <!-- </a> -->
+          <h3 class="product-title">1980 Telephone</h3>
+          <p class="product-description">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi,
+            aliquam?
+          </p>
+          <p class="product-price">₦12000</p>
+          <button class="add-to-cart">Add to cart</button>
+        </div>
+        <div class="product-card">
+          <p class="product-category">Accessories</p>
+          <!-- <a href="${product.image}" data-lightbox="post-gallery"> -->
+          <img src="./public/img/tele-prop1.jpg" alt="${product.name}" />
+          <!-- </a> -->
+          <h3 class="product-title">1980 Telephone</h3>
+          <p class="product-description">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi,
+            aliquam?
+          </p>
+          <p class="product-price">₦12000</p>
+          <button class="add-to-cart">Add to cart</button>
+        </div>
+        <div class="product-card">
+          <p class="product-category">Accessories</p>
+          <!-- <a href="${product.image}" data-lightbox="post-gallery"> -->
+          <img src="./public/img/tele-prop1.jpg" alt="${product.name}" />
+          <!-- </a> -->
+          <h3 class="product-title">1980 Telephone</h3>
+          <p class="product-description">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi,
+            aliquam?
+          </p>
+          <p class="product-price">₦12000</p>
+          <button class="add-to-cart">Add to cart</button>
+        </div>
+        <!-- Products will be injected here via JS -->
+      </section>
+      <!-- Loading Modal -->
+      <div id="loading-modal" class="modal">
+        <div class="modal-content">
+          <div id="loading-spinner" class="spinner"></div>
+          <p id="modal-message">Processing...</p>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Style Haven Store. All rights reserved.</p>
+    </footer>
+
+    <script>
+      // Function to show the loading modal
+      function showLoadingModal(message = "Processing...") {
+        const modal = document.getElementById("loading-modal");
+        const modalMessage = document.getElementById("modal-message");
+
+        modalMessage.textContent = message;
+        modal.style.display = "flex"; // Show the modal
+      }
+
+      // Function to hide the loading modal
+      function hideLoadingModal() {
+        const modal = document.getElementById("loading-modal");
+        modal.style.display = "none"; // Hide the modal
+      }
+
+      // Function to show a success message in the modal
+      function showSuccessModal(message = "Operation Successful!") {
+        showLoadingModal(message);
+        setTimeout(() => hideLoadingModal(), 2000); // Hide after 2 seconds
+      }
+
+      // Function to show an error message in the modal
+      function showErrorModal(message = "Something went wrong!") {
+        showLoadingModal(message);
+        setTimeout(() => hideLoadingModal(), 2000); // Hide after 2 seconds
+      }
+
+      const token = localStorage.getItem("token");
+      const loginLink = document.getElementById("login-link");
+      const logoutLink = document.getElementById("logout-link");
+      const adminLink = document.getElementById("admin-link");
+
+      if (token) {
+        loginLink.style.display = "none";
+        logoutLink.style.display = "inline";
+
+        // Show loading modal while checking user info
+        showLoadingModal("Checking your information...");
+
+        // Ensure the Authorization header has 'Bearer' before the token
+        fetch("http://localhost:8000/api/users/me", {
+          headers: {
+            Authorization: `Bearer ${token}`, // Add the 'Bearer' keyword
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            hideLoadingModal(); // Hide the modal once data is fetched
+
+            if (data.isAdmin) {
+              adminLink.style.display = "inline"; // Show the admin link if the user is an admin
+            }
+          })
+          .catch((error) => {
+            hideLoadingModal(); // Hide the modal in case of error
+            console.error("Error:", error);
+            showErrorModal("You are not authorized to access this page");
+          });
+
+        logoutLink.addEventListener("click", () => {
+          localStorage.removeItem("token");
+          location.reload();
+        });
+      } else {
+        loginLink.style.display = "inline"; // If there's no token, show the login link
+        logoutLink.style.display = "none";
+      }
+    </script>
+
+    <script src="./public/js/index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/js/lightbox-plus-jquery.min.js"></script>
+  </body>
+</html>

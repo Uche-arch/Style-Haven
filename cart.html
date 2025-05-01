@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./public/css/cart.css" />
+    <link rel="stylesheet" href="./public/css/modal.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+    <title>My Cart</title>
+  </head>
+  <body>
+    <header>
+      <h1>Your Cart</h1>
+      <nav>
+        <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+        <!-- <a href="checkout.html">Checkout</a> -->
+      </nav>
+    </header>
+
+    <main>
+      <h1 style="padding-left: 20px" class="items">Items</h1>
+      <section class="products" id="cart-list">
+       
+        <!-- Cart items will appear here -->
+      </section>
+
+      <section class="payment-details" style="padding-left: 20px">
+        <h2>Please pay to the following bank account:</h2>
+        <p><b>Bank Name:</b> OPAY</p>
+        <p><b>Account Name:</b> Obo, Agan Bassey</p>
+        <p><b>Account Number:</b> 8163245948</p>
+      </section>
+
+      <section id="cart-summary">
+        <!-- <button>save</button> -->
+        <p>
+          <strong>Total: ₦<span id="total-price">0</span></strong>
+        </p>
+        <button id="checkout-button">Proceed to Checkout</button>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Style Haven Store. All rights reserved.</p>
+    </footer>
+
+    <script>
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const container = document.getElementById("cart-list");
+      const totalPriceContainer = document.getElementById("total-price");
+      const checkoutButton = document.getElementById("checkout-button");
+      let totalPrice = 0;
+
+      container.innerHTML = ""; // Clear existing items
+
+      if (cart.length === 0) {
+        container.innerHTML = "<p>Your cart is empty.</p>";
+        checkoutButton.disabled = true;
+      }
+
+      cart.forEach((product) => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+
+        card.innerHTML = `
+      <img src="${product.image}" alt="${product.name}" style="width: 100px;"/>
+      <h3>${product.name}</h3>
+      <p>Price: ₦${product.price.toLocaleString()}</p>
+      <!-- Color and Size Inputs -->
+      <label for="color-${product._id}">Color:</label>
+      <input type="text" id="color-${product._id}" value="${
+          product.color || ""
+        }" />
+      
+      <label for="size-${product._id}">Size:</label>
+      <input type="text" id="size-${product._id}" value="${
+          product.size || ""
+        }" />
+      
+      <label for="quantity-${product._id}">Quantity:</label>
+      <input type="number" id="quantity-${product._id}" value="${
+          product.quantity
+        }" min="1" placeholder="1"/>
+      
+      <button onclick="removeFromCart('${product._id}')">Remove</button>
+    `;
+
+        container.appendChild(card);
+
+        // Recalculate total price based on quantity and price
+        totalPrice += product.price * product.quantity;
+
+        // Add event listener to update quantity
+        const quantityInput = document.getElementById(
+          `quantity-${product._id}`
+        );
+        quantityInput.addEventListener("input", (e) => {
+          updateQuantity(product._id, e.target.value);
+        });
+
+        // Add event listener to update color and size
+        const colorInput = document.getElementById(`color-${product._id}`);
+        const sizeInput = document.getElementById(`size-${product._id}`);
+
+        colorInput.addEventListener("input", (e) => {
+          updateProductDetails(product._id, "color", e.target.value);
+        });
+
+        sizeInput.addEventListener("input", (e) => {
+          updateProductDetails(product._id, "size", e.target.value);
+        });
+      });
+
+      // Update the displayed total price
+      totalPriceContainer.innerText = totalPrice.toLocaleString();
+
+      function removeFromCart(id) {
+        const updatedCart = cart.filter((item) => item._id !== id);
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
+        window.location.reload(); // Refresh the cart page
+      }
+
+      function updateQuantity(id, newQuantity) {
+        // Parse the input quantity, ensuring it's a valid number
+        const parsedQuantity = parseInt(newQuantity, 10);
+
+        // Check if parsedQuantity is NaN (not a valid number) or less than 1, and set it to 1
+        if (isNaN(parsedQuantity) || parsedQuantity < 1) {
+          // If the value is invalid, set it to 1
+          newQuantity = 1;
+        }
+
+        const product = cart.find((item) => item._id === id);
+        if (product) {
+          product.quantity = parseInt(newQuantity, 10); // Update the quantity
+
+          // Update the cart in localStorage
+          localStorage.setItem("cart", JSON.stringify(cart));
+
+          // Recalculate the total price
+          recalculateTotal();
+        }
+      }
+
+      function updateProductDetails(id, field, value) {
+        const product = cart.find((item) => item._id === id);
+        if (product) {
+          product[field] = value;
+          // Update the cart in localStorage
+          localStorage.setItem("cart", JSON.stringify(cart));
+          // Recalculate the total price immediately after update
+          recalculateTotal();
+        }
+      }
+
+      function recalculateTotal() {
+        totalPrice = 0;
+        cart.forEach((product) => {
+          totalPrice += product.price * product.quantity;
+        });
+        totalPriceContainer.innerText = totalPrice.toLocaleString();
+      }
+
+      checkoutButton.addEventListener("click", () => {
+        // Save the total price in localStorage before navigating to checkout
+        localStorage.setItem("totalPrice", totalPrice.toString());
+        window.location.href = "checkout.html"; // Proceed to checkout
+      });
+    </script>
+  </body>
+</html>

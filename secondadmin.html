@@ -1,0 +1,307 @@
+<!-- frontend/admin.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="./public/css/admin.css" />
+    <link rel="stylesheet" href="./public/css/modal.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header>
+      <h1>CEO Style Haven😊</h1>
+      <nav>
+        <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="secondadmin.html" class="activeLink"
+          ><i class="fa-solid fa-tachometer-alt"></i> Admin Dashboard</a
+        >
+        <a href="secondorder.html"><i class="fa-solid fa-box"></i> Orders</a>
+        <a href="#" id="logout-link"
+          ><i class="fa-solid fa-right-from-bracket"></i> Logout</a
+        >
+      </nav>
+    </header>
+
+    <main>
+      <h2 style="font-size: 30px">Manage Products</h2>
+
+      <!-- Product Form -->
+      <h3 style="text-align: center">Add New Product</h3>
+      <form id="add-product-form" enctype="multipart/form-data">
+        <input
+          type="text"
+          id="product-name"
+          placeholder="Product Name"
+          required
+        /><br />
+        <input
+          type="number"
+          id="product-price"
+          placeholder="Price"
+          required
+        /><br />
+        <textarea
+          id="product-description"
+          placeholder="Description"
+          required
+        ></textarea
+        ><br />
+        <input
+          type="text"
+          id="product-category"
+          placeholder="Category"
+          required
+        /><br />
+        <input
+          type="number"
+          id="product-stock"
+          placeholder="Stock"
+          required
+        /><br />
+        <label for="product-image" class="upload-btn">📤 Upload Product image </label>
+
+        <input
+          type="file"
+          id="product-image"
+          name="receipt"
+          style="display: none"
+          required
+        />
+        <img
+          id="image-preview"
+          style="max-width: 150px; margin-top: 10px; display: none"
+        />
+        <br />
+        <button type="submit">Add Product</button>
+      </form>
+
+      <!-- Existing Products -->
+      <h3>Existing Products</h3>
+      <div id="product-list"></div>
+      <!-- Loading Modal -->
+      <div id="loading-modal" class="modal">
+        <div class="modal-content">
+          <div id="loading-spinner" class="spinner"></div>
+          <p id="modal-message">Processing...</p>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Style Haven Store. All rights reserved.</p>
+    </footer>
+
+    <script>
+        
+      // Function to show the loading modal
+      function showLoadingModal(message = "Processing...") {
+        const modal = document.getElementById("loading-modal");
+        const modalMessage = document.getElementById("modal-message");
+
+        modalMessage.textContent = message;
+        modal.style.display = "flex"; // Show the modal
+      }
+
+      // Function to hide the loading modal
+      function hideLoadingModal() {
+        const modal = document.getElementById("loading-modal");
+        modal.style.display = "none"; // Hide the modal
+      }
+
+      // Function to show a success message in the modal
+      function showSuccessModal(message = "Operation Successful!") {
+        showLoadingModal(message);
+        setTimeout(() => hideLoadingModal(), 2000); // Hide after 2 seconds
+      }
+
+      // Function to show an error message in the modal
+      function showErrorModal(message = "Something went wrong!") {
+        showLoadingModal(message);
+        setTimeout(() => hideLoadingModal(), 2000); // Hide after 2 seconds
+      }
+
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Access denied. Please log in.");
+        window.location.href = "login.html";
+      }
+
+      // Check if the user is admin
+      fetch("http://localhost:8000/api/users/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((user) => {
+          if (!user.isAdmin) {
+            alert("Access denied. Admins only.");
+            window.location.href = "index.html";
+          } else {
+            loadProducts(); // Proceed to load products
+          }
+        })
+        .catch(() => {
+          alert("Access denied.");
+          window.location.href = "login.html";
+        });
+
+      document.getElementById("logout-link").addEventListener("click", () => {
+        localStorage.removeItem("token");
+        window.location.href = "login.html";
+      });
+
+      // Handle product submission
+      document
+        .getElementById("add-product-form")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const name = document.getElementById("product-name").value;
+          const price = document.getElementById("product-price").value;
+          const description = document.getElementById(
+            "product-description"
+          ).value;
+          const category = document.getElementById("product-category").value;
+          const stock = document.getElementById("product-stock").value;
+          const image = document.getElementById("product-image").files[0];
+
+          const formData = new FormData();
+          formData.append("name", name);
+          formData.append("price", price);
+          formData.append("description", description);
+          formData.append("category", category);
+          formData.append("stock", stock);
+          formData.append("image", image);
+
+          showLoadingModal("Adding product..."); // Show loading modal
+
+          try {
+            const res = await fetch("http://localhost:8000/api/products", {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+              body: formData,
+            });
+
+            hideLoadingModal(); // Hide the loading modal when the request is done
+
+            const data = await res.json();
+            if (res.ok) {
+              showSuccessModal("✅ Product added successfully!"); // Show success message
+              // Increment new count for the category in localStorage
+              const newCounts = JSON.parse(
+                localStorage.getItem("newCategoryCounts") || "{}"
+              );
+              newCounts[category] = (newCounts[category] || 0) + 1;
+              localStorage.setItem(
+                "newCategoryCounts",
+                JSON.stringify(newCounts)
+              );
+
+              loadProducts(); // Refresh product list
+            } else {
+              showErrorModal("❌ Error: " + data.error); // Show error message
+            }
+          } catch (error) {
+            hideLoadingModal(); // Hide the modal on error
+            showErrorModal("❌ Something went wrong. Please try again.");
+          }
+        });
+
+      // Load products
+      async function loadProducts() {
+        showLoadingModal("Loading products..."); // Show loading modal
+
+        const res = await fetch("http://localhost:8000/api/products", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        hideLoadingModal(); // Hide loading modal after fetching
+
+        const data = await res.json();
+        const productList = document.getElementById("product-list");
+        productList.innerHTML = "";
+
+        if (data.length === 0) {
+          productList.innerHTML = "<p>No products available.</p>";
+        } else {
+          data.forEach((product) => {
+            const div = document.createElement("div");
+            div.classList.add("product");
+            div.innerHTML = `
+        <h4>${product.name}</h4>
+        <img src="${product.image}" alt="${product.name}" />
+        <p>${product.description}</p>
+        <p>${product.category}</p>
+        <p><strong>Price:</strong> ₦${product.price.toLocaleString()}</p>
+        <p><strong>Stock:</strong> ${product.stock}</p>
+        <button onclick="deleteProduct('${product._id}')">Delete</button>
+      `;
+            productList.appendChild(div);
+          });
+        }
+      }
+
+      // Delete product
+      async function deleteProduct(id) {
+        const confirmDelete = confirm(
+          "Are you sure you want to delete this product?"
+        );
+        if (!confirmDelete) return;
+
+        showLoadingModal("Deleting product..."); // Show loading modal
+
+        const res = await fetch(`http://localhost:8000/api/products/${id}`, {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        hideLoadingModal(); // Hide loading modal when the request is done
+
+        const data = await res.json();
+        if (res.ok) {
+          showSuccessModal("✅ Product deleted"); // Show success message
+          loadProducts(); // Refresh product list
+          // Also remove the deleted product from the cart if it exists
+          let cart = JSON.parse(localStorage.getItem("cart")) || [];
+          cart = cart.filter((product) => product._id !== id); // Remove the product from cart
+          localStorage.setItem("cart", JSON.stringify(cart)); // Update cart in localStorage
+        } else {
+          console.error("❌ Backend says:", data); // ← Add this too
+          showErrorModal("❌ Error: " + data.error); // Show error message
+        }
+      }
+      // 📸 Handle product image preview and display
+      const fileInput = document.getElementById("product-image");
+      const previewImg = document.getElementById("image-preview");
+      const uploadLabel = document.querySelector("label[for='product-image']");
+
+      fileInput.addEventListener("change", function () {
+        const file = fileInput.files[0];
+
+        if (file) {
+          uploadLabel.textContent = `✅ ${file.name} selected`; // show file name
+          if (file.type.startsWith("image/")) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              previewImg.src = e.target.result;
+              previewImg.style.display = "block";
+            };
+            reader.readAsDataURL(file);
+          } else {
+            previewImg.style.display = "none";
+          }
+        } else {
+          uploadLabel.textContent = "📤 Upload Product img";
+          previewImg.style.display = "none";
+        }
+      });
+    </script>
+  </body>
+</html>
