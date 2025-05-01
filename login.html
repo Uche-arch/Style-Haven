@@ -83,7 +83,7 @@
     showLoadingModal("Logging in..."); // Show loading modal while processing login
 
     try {
-      const res = await fetch("http://localhost:8000/api/users/login", {
+      const res = await fetch("https://style-haven-backend.onrender.com/api/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -98,7 +98,7 @@
 
         // Get user info to check admin
         const profileRes = await fetch(
-          "http://localhost:8000/api/users/me",
+          "https://style-haven-backend.onrender.com/api/users/me",
           {
             headers: {
               Authorization: `Bearer ${data.token}`,

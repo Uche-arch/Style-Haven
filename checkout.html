@@ -327,7 +327,7 @@
         showLoadingModal("Placing your order...");
 
         try {
-          const res = await fetch("http://localhost:8000/api/orders", {
+          const res = await fetch("https://style-haven-backend.onrender.com/api/orders", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

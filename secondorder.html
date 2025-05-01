@@ -109,7 +109,7 @@
             const deliveredMap = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
 
             // Check if admin
-            fetch("http://localhost:8000/api/users/me", {
+            fetch("https://style-haven-backend.onrender.com/api/users/me", {
               headers: { Authorization: `Bearer ${token}` },
             })
               .then((res) => res.json())
@@ -134,7 +134,7 @@
             async function loadOrders() {
               showLoadingModal("Loading orders..."); // Show loading modal
 
-              const res = await fetch("http://localhost:8000/api/orders", {
+              const res = await fetch("https://style-haven-backend.onrender.com/api/orders", {
                 headers: { Authorization: `Bearer ${token}` },
               });
 
@@ -222,7 +222,7 @@
 
                   try {
                     const res = await fetch(
-                      `http://localhost:8000/api/orders/${id}`,
+                      `https://style-haven-backend.onrender.com/api/orders/${id}`,
                       {
                         method: "DELETE",
                         headers: { Authorization: `Bearer ${token}` },

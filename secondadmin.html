@@ -131,7 +131,7 @@
       }
 
       // Check if the user is admin
-      fetch("http://localhost:8000/api/users/me", {
+      fetch("https://style-haven-backend.onrender.com/api/users/me", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -181,7 +181,7 @@
           showLoadingModal("Adding product..."); // Show loading modal
 
           try {
-            const res = await fetch("http://localhost:8000/api/products", {
+            const res = await fetch("https://style-haven-backend.onrender.com/api/products", {
               method: "POST",
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -218,7 +218,7 @@
       async function loadProducts() {
         showLoadingModal("Loading products..."); // Show loading modal
 
-        const res = await fetch("http://localhost:8000/api/products", {
+        const res = await fetch("https://style-haven-backend.onrender.com/api/products", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -257,7 +257,7 @@
 
         showLoadingModal("Deleting product..."); // Show loading modal
 
-        const res = await fetch(`http://localhost:8000/api/products/${id}`, {
+        const res = await fetch(`https://style-haven-backend.onrender.com/api/products/${id}`, {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` },
         });

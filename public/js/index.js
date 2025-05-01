@@ -643,11 +643,14 @@ async function fetchProducts() {
   try {
     const token = localStorage.getItem("token");
 
-    const res = await fetch("http://localhost:8000/api/products", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await fetch(
+      "https://style-haven-backend.onrender.com/api/products",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     const products = await res.json();
 

@@ -390,7 +390,7 @@
         showLoadingModal("Checking your information...");
 
         // Ensure the Authorization header has 'Bearer' before the token
-        fetch("http://localhost:8000/api/users/me", {
+        fetch("https://style-haven-backend.onrender.com/api/users/me", {
           headers: {
             Authorization: `Bearer ${token}`, // Add the 'Bearer' keyword
           },
