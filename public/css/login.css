@@ -64,7 +64,7 @@ main {
   padding: 20px;
   border-radius: 8px;
   width: 100%;
-  max-width: 450px;
+  max-width: 680px;
   /* border: 1px solid; */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -107,18 +107,37 @@ footer {
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
-  #login-form {
-    width: 90%;
-    padding: 15px;
-  }
 
+@media screen and (max-width: 390px) {
+  footer {
+        padding: 5px;
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 389px) {
   header h1 {
     font-size: 1.5rem;
   }
+  #login-form input {
+  width: 100%;
+  padding: 7px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: .8rem;
+}
 
-  #login-form button {
-    width: 100%;
-    padding: 12px;
-  }
+#login-form button {
+  width: 100%;
+  padding: 7px;
+  background-color: #333;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: .8rem;
+  transition: background-color 0.3s;
+}
+
 }

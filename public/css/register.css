@@ -51,7 +51,11 @@ header h1 {
 main {
   display: flex;
   justify-content: center;
-  padding: 120px;
+  /* align-items: center; */
+  padding-top: 120px;
+  width: 80%;
+  margin: auto;
+  /* height: 40vh; */
 }
 
 #register-form {
@@ -59,7 +63,7 @@ main {
   padding: 20px;
   border-radius: 8px;
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -100,7 +104,7 @@ footer {
   width: 100%;
 }
 
-/* Responsive Design */
+/* Responsive Design
 @media (max-width: 768px) {
   #register-form {
     width: 90%;
@@ -115,4 +119,38 @@ footer {
     width: 100%;
     padding: 12px;
   }
+} */
+
+@media screen and (max-width: 500px) {
+  header h1 {
+    font-size: 1.5rem;
+  }
+  #register-form input {
+  width: 100%;
+  padding: 9px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: .8rem;
 }
+
+#register-form button {
+  width: 100%;
+  padding: 8px;
+  background-color: #333;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: .8rem;
+  transition: background-color 0.3s;
+}
+}
+
+@media screen and (max-width: 390px) {
+  footer {
+        padding: 5px;
+        font-size: 12px;
+    }
+}
+

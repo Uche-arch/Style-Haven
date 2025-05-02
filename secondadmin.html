@@ -3,12 +3,17 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="./public/css/admin.css" />
     <link rel="stylesheet" href="./public/css/modal.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+     <link
+      href="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/css/lightbox.min.css"
+      rel="stylesheet"
     />
   </head>
   <body>
@@ -236,7 +241,9 @@
             div.classList.add("product");
             div.innerHTML = `
         <h4>${product.name}</h4>
+        <a href="${product.image}" data-lightbox="post-gallery">
         <img src="${product.image}" alt="${product.name}" />
+        </a>
         <p>${product.description}</p>
         <p>${product.category}</p>
         <p><strong>Price:</strong> ₦${product.price.toLocaleString()}</p>
@@ -303,5 +310,6 @@
         }
       });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/js/lightbox-plus-jquery.min.js"></script>
   </body>
 </html>
